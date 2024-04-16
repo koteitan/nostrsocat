@@ -1,0 +1,48 @@
+#!/bin/bash
+#################################################################
+# websocat wrapper for nostr
+# 
+# Usage: nostrsocat <relay> <key1> <value1> <key2> <value2> ...
+# Example: nostrsocat wss://yabu.me authors [\"$mypub\"] kinds 0
+# version: 1.0
+# Requirements: sudo apt install jq websocat
+# License: MIT
+# URL: https://github.com/koteitan/nostrsocat/blob/main/LICENSE
+#################################################################
+
+#echo '["REQ","345",{"authors":["'$mypub'"],"kinds":[0]}]' |websocat wss://yabu.me |jq -r
+args=("$@")
+narg=$#
+relay=${args[0]}
+a=1
+cmd="echo '[\"REQ\",\"345\",{"
+
+if [ $narg -lt 1 ]; then
+  echo "Usage: nostrsocat <relay> <key1> <value1> <key2> <value2> ..."
+  echo "Example: nostrsocat wss://yabu.me authors [\"\$mypub\"] kinds 0"
+  exit 1
+fi
+
+while true; do
+  if [ $a -lt $narg ]; then
+
+    key=${args[$a]}
+    a=$((a+1))
+    value=${args[$a]}
+    a=$((a+1))
+    cmd+="\"$key\":$value"
+
+    if [ $a -lt $narg ]; then
+      cmd+=","
+    fi
+
+  else
+    break
+  fi
+done
+
+cmd+="}]' | websocat $relay |jq -r"
+#echo $cmd
+eval $cmd
+exit 0
+
