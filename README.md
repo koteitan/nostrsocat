@@ -30,7 +30,7 @@ if you have jq, you can use it like this
 nostrsocat wss://yabu.me authors [\"$mypub\"] kinds [0] | jq -r
 ```
 
-\$mypub is your public key. You can write it in your .bashrc or .bash_profile like this
+If you want to use the your public key multiple times, you can export it like this
 ```bash
 export mypub=4c5d5379a066339c88f6e101e3edb1fbaee4ede3eea35ffc6f1c664b3a4383ee
 ```
