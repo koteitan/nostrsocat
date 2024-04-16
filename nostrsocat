@@ -5,7 +5,7 @@
 # Usage: nostrsocat <relay> <key1> <value1> <key2> <value2> ...
 # Example: nostrsocat wss://yabu.me authors [\"$mypub\"] kinds 0
 # version: 1.0
-# Requirements: sudo apt install jq websocat
+# Requirements: sudo apt install websocat
 # License: MIT
 # URL: https://github.com/koteitan/nostrsocat/blob/main/LICENSE
 #################################################################
@@ -41,7 +41,8 @@ while true; do
   fi
 done
 
-cmd+="}]' | websocat $relay |jq -r"
+#cmd+="}]' | websocat $relay |jq -r"
+cmd+="}]' | websocat $relay"
 #echo $cmd
 eval $cmd
 exit 0
