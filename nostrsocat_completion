@@ -1,0 +1,100 @@
+#################################################################
+# bash completion for nostrsocat
+# License: MIT
+# URL: https://github.com/koteitan/nostrsocat/blob/main/LICENSE
+#################################################################
+
+#echo '["REQ","345",{"authors":["'$mypub'"],"kinds":[0]}]' |websocat wss://yabu.me |jq -r
+_nostrsocat() {
+  local urls=(
+    "wss://nostr.wine" \
+    "wss://nos.lol" \
+    "wss://relay.snort.social" \
+    "wss://relay.damus.io" \
+    "wss://nostr.zbd.gg" \
+    "wss://relay.currents.fyi" \
+    "wss://nostr.bitcoiner.social" \
+    "wss://relay.nostr.band" \
+    "wss://atlas.nostr.land" \
+    "wss://pyramid.fiatjaf.com" \
+    "wss://relay.f7z.io" \
+    "wss://thforest.nostr1.com" \
+    "wss://nostr21.com" \
+    "wss://relay.nostr.wirednet.jp" \
+    "wss://yabu.me" \
+    "wss://relay-jp.nostr.wirednet.jp" \
+    "wss://nostr.fediverse.jp" \
+    "wss://relay-jp.shino3.net" \
+    "wss://r.kojira.io" \
+  )
+  local cur prev words cword
+  _init_completion || return
+
+  if [ $cword -eq 1 ]; then
+    local old_comp_wordbreaks="$COMP_WORDBREAKS"
+    COMP_WORDBREAKS=""
+    COMPREPLY=($(compgen -W "${urls[*]}" -- $cur))
+    COMP_WORDBREAKS="$old_comp_wordbreaks"
+  elif [ $cword -eq 2 ]; then
+    COMPREPLY=($(compgen -W "\
+      ids \
+      authors \
+      kinds \
+      #e \
+      #a \
+      #p \
+      #g \
+      #k \
+      #q \
+      #r \
+      #t \
+      since \
+      until \
+      limit \
+      " -- $cur))
+  elif [ $cword -eq 3 ]; then
+    if [ "${words[2]}" = "authors" ]; then
+      COMPREPLY=($(compgen -W '[\\\"\$mypub\\\"]' -- $cur))
+    elif [ "${words[2]}" = "#p" ]; then
+      COMPREPLY=($(compgen -W "[\\\"\$mypub\\\"]" -- $cur))
+    elif [ "${words[2]}" = "since" ] || [ "${words[2]}" = "until" ]; then
+      COMPREPLY=$(date -d $cur +%s)
+    fi
+  fi
+  return 0
+}
+complete -F _nostrsocat nostrsocat
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
