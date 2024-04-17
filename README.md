@@ -3,6 +3,7 @@ websocat wrapper for nostr with bash completion
 
 ## Requrements
 - websocat
+- bash
 
 ## Install
 ```bash
